@@ -1,8 +1,23 @@
 document.getElementById('searchBtn').addEventListener('click', function() {
     let tvshowName = document.getElementById('showSearch').value;
-    // For when show search gets implemented vv | does nothing right now
-    // document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
+    document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
 
+    // Call the backend API to search for the TV show
+    fetch(`http://localhost:3000/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('womp-womp API response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            document.getElementById('releaseTime').innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('Error occurred while fetching TV show data:', error);
+            document.getElementById('releaseTime').innerText = "Error occurred while fetching data.";
+        });
 });
 
 const TimeZones = [
@@ -43,7 +58,7 @@ const outputElement = document.getElementById('output');
 document.getElementById('convertBtn').addEventListener('click', function () {
     const tvshowTimeZone = document.getElementById("showTimeZone").value;
     const localTimeZone = document.getElementById("localTimeZone").value;
-    const testTime = document.getElementById("testTime").value;
+    const testTime = document.getElementById("testTime").value; //testTime value = 1464793200
 
     fetch(`http://localhost:3000/convert-time?tvshowTimeZone=${encodeURIComponent(tvshowTimeZone)}&localTimeZone=${encodeURIComponent(localTimeZone)}&testTime=${encodeURIComponent(testTime)}`)
         .then(response => {
