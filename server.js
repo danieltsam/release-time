@@ -1,13 +1,30 @@
 const express = require('express');
-const app = express();
+const axios = require('axios');
 const cors = require('cors');
+const app = express();
 app.use(cors());
 const port = 3000; // You can change the port if needed
 require('dotenv').config();
 
-const timezonedbApiKey = process.env.timezonedbApiKey // TimezoneDB API Key
-const tvdbApiKey = process.env.tvdbApiKey // tvdb API Key
+const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
+console.log("timezonedb api key is", timezonedbApiKey);
+const tvdbApiKey = process.env.tvdbApiKey // tvdb API Key;
 
+async function getTvdbToken(){
+    try {
+        const response = await axios.post('https://api4.thetvdb.com/v4/login', {
+            apikey: tvdbApiKey
+        });
+        const tvdbJwtToken = response.data.data.token;
+        console.log("TVDB Token Acquired! ✅ TVDB Token:", tvdbJwtToken)
+        return tvdbJwtToken
+    } catch (error) {
+        console.error("❌ womp-womp! error getting tvdb token:", error.response?.data || error.message);
+        return null;
+    }
+}
+
+getTvdbToken();
 
 // Create a route that will handle the time zone conversion
 app.get('/convert-time', async (req, res) => {
