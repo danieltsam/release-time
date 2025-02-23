@@ -9,7 +9,7 @@ require('dotenv').config();
 const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
 console.log("timezonedb api key is", timezonedbApiKey);
 const tvdbApiKey = process.env.tvdbApiKey // tvdb API Key;
-
+/*
 async function getTvdbToken(){
     try {
         const response = await axios.post('https://api4.thetvdb.com/v4/login', {
@@ -23,26 +23,29 @@ async function getTvdbToken(){
         return null;
     }
 }
+*/
 
 async function searchTvShow(tvshowName) {
+    /*
     const tvdbJwtToken = await getTvdbToken();
     if (!tvdbJwtToken) return;
-
+    */
     try {
-        const response = await axios.get(`https://api4.thetvdb.com/v4/search?query=${encodeURIComponent(tvshowName)}`, {
-            headers: { Authorization: `Bearer ${tvdbJwtToken}`}
-        });
+        const searchResponse = await axios.get(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(tvshowName)}`);
 
-        const tvShowData = response.data.data
-        const firstShow = response.data.data[0];
+        if (!searchResponse.data.length) {
+            throw new Error("Couldn't find a TV show with that name, sorry :(")
+        }
+
+        const firstShow = searchResponse.data.data[0];
         const seriesName = firstShow.name;
-        const seriesId = firstShow.tvdb_id;
+        const seriesId = firstShow.id;
+        const seriesURL = firstShow.url;
         console.log(firstShow)
-        console.log("Series ID:", seriesId);
-        console.log("Series Name:", seriesName)
-
-       return getNextAiredEpisode(seriesId, tvdbJwtToken);
+        console.log(`Found show: ${seriesName} (${seriesURL}) | (Series ID:, ${seriesId})`);
         
+        const episodeResponse = await axios.get(`https://api.tvmaze.com/shows/${seriesId}?embed=nextepisode`)
+
     } catch(error) {
         console.error("❌ error searching TV Show ):", error.response?.data || error.message)
     }
@@ -55,7 +58,6 @@ async function getNextAiredEpisode(seriesId, tvdbJwtToken) {
         });
 
         console.log("Next Aired Episode:", response.data);
-        const nextAiredDateData = response.data.data ? response.data.data.airDate : 'No next aired episode available';
         const nextAiredDate = response.data.data?.nextAired || 'Date not available';
         console.log('Next Aired Date:', nextAiredDate);
         return nextAiredDate;
