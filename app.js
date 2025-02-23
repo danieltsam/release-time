@@ -12,7 +12,7 @@ document.getElementById('searchBtn').addEventListener('click', function() {
         })
         .then(data => {
             console.log(data);
-            document.getElementById('releaseTime').innerText = JSON.stringify(data, null, 2);
+            document.getElementById('releaseTime').innerText = JSON.stringify(data.message, null, 2);
         })
         .catch(error => {
             console.error('Error occurred while fetching TV show data:', error);

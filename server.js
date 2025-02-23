@@ -3,66 +3,45 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-const port = 3000; // You can change the port if needed
+const port = 3000;
 require('dotenv').config();
 
 const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
-console.log("timezonedb api key is", timezonedbApiKey);
-const tvdbApiKey = process.env.tvdbApiKey // tvdb API Key;
-/*
-async function getTvdbToken(){
-    try {
-        const response = await axios.post('https://api4.thetvdb.com/v4/login', {
-            apikey: tvdbApiKey
-        });
-        const tvdbJwtToken = response.data.data.token;
-        console.log("TVDB Token Acquired! ✅ TVDB Token:", tvdbJwtToken)
-        return tvdbJwtToken
-    } catch (error) {
-        console.error("❌ womp-womp! error getting tvdb token:", error.response?.data || error.message);
-        return null;
-    }
-}
-*/
 
 async function searchTvShow(tvshowName) {
-    /*
-    const tvdbJwtToken = await getTvdbToken();
-    if (!tvdbJwtToken) return;
-    */
     try {
         const searchResponse = await axios.get(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(tvshowName)}`);
 
         if (!searchResponse.data.length) {
-            throw new Error("Couldn't find a TV show with that name, sorry :(")
+            return ("Couldn't find a TV show with that name, sorry :(")
+            
         }
 
-        const firstShow = searchResponse.data.data[0];
+        const firstShow = searchResponse.data[0].show;
         const seriesName = firstShow.name;
         const seriesId = firstShow.id;
         const seriesURL = firstShow.url;
         console.log(firstShow)
         console.log(`Found show: ${seriesName} (${seriesURL}) | (Series ID:, ${seriesId})`);
+        const nextEpisodeLink = firstShow._links.nextepisode?.href; 
         
-        const episodeResponse = await axios.get(`https://api.tvmaze.com/shows/${seriesId}?embed=nextepisode`)
+        if (!nextEpisodeLink) {
+            return ("Couldn't find the next episode of that show, sorry :(")
+        }
+        const nextEpisodeResponse = await axios.get(nextEpisodeLink);
+        console.log("------------------------------------------------")
+        const nextEpisode = nextEpisodeResponse.data;
+        console.log(nextEpisode)
+        const nextEpisodeName = nextEpisode.name
+        const airStamp = nextEpisode.airstamp
+
+        console.log(`Next Episode of ${seriesName}: '${nextEpisodeName}'`)
+        console.log(`Next Episode Airs on: ${airStamp} (GMT Timezone)`);
+
+        return (`Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`)
 
     } catch(error) {
         console.error("❌ error searching TV Show ):", error.response?.data || error.message)
-    }
-}
-
-async function getNextAiredEpisode(seriesId, tvdbJwtToken) {
-    try {
-        const response = await axios.get(`https://api4.thetvdb.com/v4/series/${seriesId}/nextAired`, {
-            headers: { Authorization: `Bearer ${tvdbJwtToken}` }
-        });
-
-        console.log("Next Aired Episode:", response.data);
-        const nextAiredDate = response.data.data?.nextAired || 'Date not available';
-        console.log('Next Aired Date:', nextAiredDate);
-        return nextAiredDate;
-    } catch (error) {
-        console.error(`error fetching next aired date for tv show:`, error.response?.data || error.message);
     }
 }
 
