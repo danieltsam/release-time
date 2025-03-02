@@ -1,8 +1,10 @@
+let airStamp;
+let nextEpisodeName;
+
 document.getElementById('searchBtn').addEventListener('click', function() {
     let tvshowName = document.getElementById('showSearch').value;
     document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
-
-    // Call the backend API to search for the TV show
+    // call the backend server API to search for the TV show
     fetch(`http://localhost:3000/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
             if (!response.ok) {
@@ -12,13 +14,40 @@ document.getElementById('searchBtn').addEventListener('click', function() {
         })
         .then(data => {
             console.log(data);
-            document.getElementById('releaseTime').innerText = JSON.stringify(data.message, null, 2);
+            airStamp = data.airStamp
+            nextEpisodeName = data.nextEpisodeName
+            showMessage = `Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`
+            document.getElementById('releaseTime').innerText = showMessage;
         })
         .catch(error => {
             console.error('Error occurred while fetching TV show data:', error);
             document.getElementById('releaseTime').innerText = "Error occurred while fetching data.";
         });
 });
+
+function convertToUnix(airStamp) {
+    return Math.floor(new Date(airStamp).getTime() / 1000); 
+}
+
+function unixToReadable(unixTimestamp) {
+    // converts back to date from unix
+    const date = new Date(unixTimestamp * 1000);
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
+    const year = date.getFullYear();
+    
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+    // convert to 12 hour format with am and pm
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Converts 0 to 12
+    const formattedHours = hours.toString().padStart(2, '0');
+    
+    return `${day}/${month}/${year} ${formattedHours}:${minutes} ${ampm}`;
+}
 
 const TimeZones = [
     { name: "Australia/Adelaide", offset: "UTC +10:30" },
@@ -35,30 +64,29 @@ const TimeZones = [
 ];
 
 function populateTimeZones() {
-    const showTimeZoneSelect = document.getElementById("showTimeZone");
     const localTimeZoneSelect = document.getElementById("localTimeZone");
     const testTimeInput = document.getElementById("testTime");
 
     TimeZones.forEach(zone => {
         let option1 = new Option(`${zone.name} (${zone.offset})`, zone.name);
-        let option2 = new Option(`${zone.name} (${zone.offset})`, zone.name);
-        showTimeZoneSelect.add(option1);
-        localTimeZoneSelect.add(option2);
+        localTimeZoneSelect.add(option1);
     });
 
-    // Set default selection to user's local timezone
+    // sets default selection to user's local timezone
     localTimeZoneSelect.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-// Call function when page loads
+// calls function when page loads
 populateTimeZones();
 
 const outputElement = document.getElementById('output');
 
 document.getElementById('convertBtn').addEventListener('click', function () {
-    const tvshowTimeZone = document.getElementById("showTimeZone").value;
+    
+    const tvshowTimeZone = 'Europe/London'
     const localTimeZone = document.getElementById("localTimeZone").value;
-    const testTime = document.getElementById("testTime").value; //testTime value = 1464793200
+    console.log(airStamp)
+    const testTime = convertToUnix(airStamp)
 
     fetch(`http://localhost:3000/convert-time?tvshowTimeZone=${encodeURIComponent(tvshowTimeZone)}&localTimeZone=${encodeURIComponent(localTimeZone)}&testTime=${encodeURIComponent(testTime)}`)
         .then(response => {
@@ -69,8 +97,11 @@ document.getElementById('convertBtn').addEventListener('click', function () {
         })
         .then(data => {
             console.log(data);
-            outputElement.textContent = JSON.stringify(data, null, 2);
-            console.log('did everything right')
+            convertedUnixTime = data.toTimestamp;
+            convertedShowTime = unixToReadable(convertedUnixTime);
+
+            document.getElementById('convertedTime').innerText = `Next Episode: '${nextEpisodeName}' airs on ${convertedShowTime} (${localTimeZone} Time)`;
+            console.log('enjoy your converted time!')
         })
         .catch(error => {
             console.error('Oh no! Error has occured:', error)

@@ -38,7 +38,12 @@ async function searchTvShow(tvshowName) {
         console.log(`Next Episode of ${seriesName}: '${nextEpisodeName}'`)
         console.log(`Next Episode Airs on: ${airStamp} (GMT Timezone)`);
 
-        return (`Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`)
+        return {
+            nextEpisodeName: nextEpisodeName,
+            formattedMessage: `Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`,
+            airStamp: airStamp
+        }
+        
 
     } catch(error) {
         console.error("❌ error searching TV Show ):", error.response?.data || error.message)
@@ -75,19 +80,19 @@ app.get('/convert-time', async (req, res) => {
     }
 
     try {
-        // Call the API to convert time
+        // calls the timezonedb API to convert time
         const response = await fetch(`https://api.timezonedb.com/v2.1/convert-time-zone?key=${timezonedbApiKey}&format=json&from=${tvshowTimeZone}&to=${localTimeZone}&time=${testTime}`);
         
-        // Check if the response is successful
+        // check if the response was successful, if not return an error
         if (!response.ok) {
             throw new Error("failed to fetch data from the API :(");
         }
 
-        // Parse the JSON data
+        // parse and output the api response data for testing
         const data = await response.json();
         console.log("api response:", data);
 
-        // Send the data back to the client
+        // send the data back to the front-end
         res.json(data);
     } catch (error) {
         console.error("error occurred:", error)
@@ -95,7 +100,7 @@ app.get('/convert-time', async (req, res) => {
     }
 });
 
-// Start the server
+// starts the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
