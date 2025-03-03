@@ -1,9 +1,19 @@
 let airStamp;
 let nextEpisodeName;
+document.getElementById('convertBtn').disabled = true
 
 document.getElementById('searchBtn').addEventListener('click', function() {
-    let tvshowName = document.getElementById('showSearch').value;
+    const tvshowName = document.getElementById('showSearch').value.trim();
+    document.getElementById('releaseTime').style.display = "block"; 
+    document.getElementById('convertedTime').style.display = "none";
+    // if tvShowName is empty, return error
+    if (!tvshowName) {
+        document.getElementById('releaseTime').innerText = `Please enter the name of a show!`;
+        return;
+    }
     document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
+    
+
     // call the backend server API to search for the TV show
     fetch(`http://localhost:3000/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
@@ -16,8 +26,16 @@ document.getElementById('searchBtn').addEventListener('click', function() {
             console.log(data);
             airStamp = data.airStamp
             nextEpisodeName = data.nextEpisodeName
-            showMessage = `Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`
+            if (airStamp) {
+                showMessage = `Next Episode: '${nextEpisodeName}' airs on ${airStamp} (GMT Time)`
+                document.getElementById('convertBtn').disabled = false;
+            }
+            else {
+                showMessage = `😔 We were unable to find the next episode airtime for the show you've searched for. 😔`
+                document.getElementById('convertBtn').disabled = true;
+            }
             document.getElementById('releaseTime').innerText = showMessage;
+            
         })
         .catch(error => {
             console.error('Error occurred while fetching TV show data:', error);
@@ -87,6 +105,8 @@ document.getElementById('convertBtn').addEventListener('click', function () {
     const localTimeZone = document.getElementById("localTimeZone").value;
     console.log(airStamp)
     const testTime = convertToUnix(airStamp)
+    document.getElementById('convertedTime').innerText = `Converting Time...`;
+    document.getElementById('convertedTime').style.display = "block";
 
     fetch(`http://localhost:3000/convert-time?tvshowTimeZone=${encodeURIComponent(tvshowTimeZone)}&localTimeZone=${encodeURIComponent(localTimeZone)}&testTime=${encodeURIComponent(testTime)}`)
         .then(response => {

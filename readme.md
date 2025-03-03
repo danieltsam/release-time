@@ -3,9 +3,9 @@
 
 Current Progress:
 core functionality completed!
-If there is no tv show found, returns error to front-end
-If there is no next episode found, returns error to front-end
+every possible input returns an output on front-end so user is never guessing what went wrong.
+looks minimalist but presentable
 
 Future Plans:
-make sure every outcome has an error that outputs so user knows what went wrong.
-add real css for appearance.
+specific error messages based on whether show is finished/no new episodes coming out or couldn't find show
+put show name in
