@@ -1,6 +1,6 @@
 # 📺 Release Time Converter  
 
-## 🚀 <center>**Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)</center>
+## <div align="center">🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)</div>
 
 ## 🔹 What is This?  
 A simple tool to check when a TV show's next episode airs, converted to your local time. No more guessing when your favourite show is coming out!
