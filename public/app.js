@@ -16,15 +16,16 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     // call the backend server API to search for the TV show
     fetch(`https://release-time.onrender.com/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
+
+              // check for rate limiting (status 429)
+              if (response.status === 429) {
+                throw new Error('You are making requests too quickly. Please try again in 1 minute.');
+              };
+
             if (!response.ok) {
                 // if the response is not OK (e.g., server error, etc.)
                 throw new Error('womp-womp API response was not ok');
               }
-              
-              // check for rate limiting (status 429)
-            if (response.status === 429) {
-                  throw new Error('You are making requests too quickly. Please try again in 1 minute.');
-                };
 
             // If the response is ok and not rate-limited, parse it as JSON
             return response.json();
