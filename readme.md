@@ -1,18 +1,9 @@
 # 📺 Release Time Converter  
 
-🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)  
+## 🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)
 
 ## 🔹 What is This?  
-A simple tool to check when a TV show's next episode airs, converted to your local time. No more guessing when your favourite show is coming out!  
-
----
-
-## 🛠️ How to Use  
-1️⃣ Start the server with:  
-   ```sh
-   node server.js
-   ```  
-2️⃣ Open `index.html` in your browser and start converting times instantly!  
+A simple tool to check when a TV show's next episode airs, converted to your local time. No more guessing when your favourite show is coming out!
 
 ---
 
@@ -62,7 +53,6 @@ A simple tool to check when a TV show's next episode airs, converted to your loc
 ❌ **Lack of Show Year/Specific Identification**  
 - No option to select between multiple results (e.g., *Battlestar Galactica 2004* vs *1978*).  
 - Users might get incorrect results.  
-
 ![Example Issue](https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Battlestar_Galactica_TOS_Title.jpg/250px-Battlestar_Galactica_TOS_Title.jpg)  
 
 ❌ **Non-Specific Error Handling**  
@@ -76,12 +66,41 @@ A simple tool to check when a TV show's next episode airs, converted to your loc
 
 ## ⏳ Rate Limiting Details  
 To prevent excessive API calls, rate limiting is in place:  
-- **1-minute limit:** Too many requests in a short period will block further queries.  
-- **10-minute limit:** Additional restrictions apply to prevent abuse.  
+- **24 hour limit:** Too many requests in a 24 hour period will block further queries.  
 - Users who exceed limits will see a message explaining the cooldown period.  
 
 ---
-💡 **Made with HTML, CSS, JavaScript, Node.js, and TVMaze API** 🎬
+
+## 🔗 APIs Used  
+This project fetches TV show data from the **TVMaze API**:  
+- **Endpoint for show information:**  
+  ```sh
+  https://api.tvmaze.com/shows/SHOW_ID_HERE
+  ```  
+
+---
+
+## 📦 Dependencies  
+Ensure you have the following installed in `package.json`:  
+```json
+"dependencies": {
+  "axios": "^1.7.9",
+  "cors": "^2.8.5",
+  "dotenv": "^16.4.7",
+  "express": "^4.21.2",
+  "express-rate-limit": "^7.5.0",
+  "node-fetch": "^3.3.2"
+}
+```
+
+Install dependencies using:  
+```sh
+npm install
+```
+---
+
+💡 **Made with HTML, CSS, JavaScript and Node.js** 🎬  
+
 **Hosted on Render**
 
-*Thank you for checking my first coding project out!*
+*Thank you for taking the time to have a look at my first coding project!*
