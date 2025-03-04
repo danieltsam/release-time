@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const axios = require('axios');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit')
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
@@ -12,6 +13,17 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
+
+//rate limiter
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 1, // Limits IP to 1 requests per windowsMs
+    message: "Too many requests from this IP, please try again after a minute",
+  });
+  
+  // Apply rate limiter to the API route
+  app.use('/api/', limiter);
+
 
 async function searchTvShow(tvshowName) {
     try {
