@@ -27,13 +27,11 @@ document.getElementById('searchBtn').addEventListener('click', function() {
               }
               
               // check for rate limiting (status 429)
-              if (response.status === 429) {
+            if (response.status === 429) {
                 return response.json().then(data => {
-                  // Display the rate-limited message in the releaseTime element
                   document.getElementById('releaseTime').innerText = "You are making requests too quickly. Please try again in 1 minute.";
                 });
               }
-              
               // If the response is ok and not rate-limited, parse it as JSON
               return response.json();
             
