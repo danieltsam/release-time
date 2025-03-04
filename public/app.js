@@ -13,13 +13,8 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     }
     document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
 
-    const apiBaseUrl = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000'
-    : 'https://release-time.onrender.com';
-    
-
     // call the backend server API to search for the TV show
-    fetch(`${apiBaseUrl}/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
+    fetch(`https://release-time.onrender.com/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
             if (!response.ok) {
                 // if the response is not OK (e.g., server error, etc.)
