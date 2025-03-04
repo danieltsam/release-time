@@ -1,6 +1,6 @@
-# 📺 Release Time Converter  
+# <div align="center">📺 Release Time Converter</div>  
 
-## 🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)
+## <div align="center">🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)</div>
 
 ## 🔹 What is This?  
 A simple tool to check when a TV show's next episode airs, converted to your local time. No more guessing when your favourite show is coming out!
@@ -75,7 +75,7 @@ To prevent excessive API calls, rate limiting is in place:
 This project fetches TV show data from the **TVMaze API**:  
 - **Endpoint for show information:**  
   ```sh
-  https://api.tvmaze.com/shows/SHOW_ID_HERE
+  https://api.tvmaze.com/shows/INSERT_ID_HERE
   ```  
 
 ---
