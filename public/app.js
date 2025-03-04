@@ -15,7 +15,7 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     
 
     // call the backend server API to search for the TV show
-    fetch(`https://release-time.vercel.app/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
+    fetch(`https://release-time.onrender.com/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('womp-womp API response was not ok');
@@ -108,7 +108,7 @@ document.getElementById('convertBtn').addEventListener('click', function () {
     document.getElementById('convertedTime').innerText = `Converting Time...`;
     document.getElementById('convertedTime').style.display = "block";
 
-    fetch(`https://release-time.vercel.app/api/convert-time?tvshowTimeZone=${encodeURIComponent(tvshowTimeZone)}&localTimeZone=${encodeURIComponent(localTimeZone)}&testTime=${encodeURIComponent(testTime)}`)
+    fetch(`https://release-time.onrender.com/api/convert-time?tvshowTimeZone=${encodeURIComponent(tvshowTimeZone)}&localTimeZone=${encodeURIComponent(localTimeZone)}&testTime=${encodeURIComponent(testTime)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('api response was not ok :(')

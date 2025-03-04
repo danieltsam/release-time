@@ -53,7 +53,7 @@ async function searchTvShow(tvshowName) {
     }
 }
 
-app.get('api/search-tv-show', async (req, res) => {
+app.get('/api/search-tv-show', async (req, res) => {
     const { tvshowName } = req.query;
     if (!tvshowName) {
         return res.status(400).json({ error: "Missing tvshowName paramater" });
@@ -73,7 +73,7 @@ app.get('api/search-tv-show', async (req, res) => {
 });
 
 // time zone conversion route
-app.get('api/convert-time', async (req, res) => {
+app.get('/api/convert-time', async (req, res) => {
     const {localTimeZone, tvshowTimeZone, testTime } = req.query;
 
     if (!localTimeZone || !tvshowTimeZone || !testTime) {
