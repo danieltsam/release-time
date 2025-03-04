@@ -17,9 +17,8 @@ const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
 // rate limiter
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1, // limits each IP to 10 requests per `windowMs`
+  max: 10, // limits each IP to 10 requests per `windowMs`
   message: {
-    error: "You are making requests too quickly. Please try again in 1 minute.",
     statusCode: 429 //app.js takes this statusCode and outputs it to frontend
   }
 });

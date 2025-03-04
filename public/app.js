@@ -12,21 +12,25 @@ document.getElementById('searchBtn').addEventListener('click', function() {
         return;
     }
     document.getElementById('releaseTime').innerText = `Searching for release time of ${tvshowName}...`;
+
+    const apiBaseUrl = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000'
+    : 'https://release-time.onrender.com';
     
 
     // call the backend server API to search for the TV show
-    fetch(`https://release-time.onrender.com/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
+    fetch(`${apiBaseUrl}/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
             if (!response.ok) {
-                // If the response is not OK (e.g., server error, etc.)
+                // if the response is not OK (e.g., server error, etc.)
                 throw new Error('womp-womp API response was not ok');
               }
               
-              // Check for rate limiting (status 429)
+              // check for rate limiting (status 429)
               if (response.status === 429) {
                 return response.json().then(data => {
                   // Display the rate-limited message in the releaseTime element
-                  document.getElementById('releaseTime').innerText = data.error;
+                  document.getElementById('releaseTime').innerText = "You are making requests too quickly. Please try again in 1 minute.";
                 });
               }
               
