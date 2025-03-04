@@ -54,7 +54,7 @@ document.getElementById('searchBtn').addEventListener('click', function() {
         })
         .catch(error => {
             console.error('Error occurred while fetching TV show data:', error);
-            document.getElementById('releaseTime').innerText = error;
+            document.getElementById('releaseTime').innerText = Error;
         });
 });
 
