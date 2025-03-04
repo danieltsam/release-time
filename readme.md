@@ -1,67 +1,87 @@
-# TV Show Release Time Finder
+# 📺 Release Time Converter  
 
-*Currently on hold for different projects*
+🚀 **Live Site:** [release-time.onrender.com](https://release-time.onrender.com/)  
 
----
-
-### Instructions:
-1. **Start the Server**  
-   Run `node server.js` to start the backend.
-   
-2. **Open the Frontend**  
-   Open `index.html` and start converting time!
+## 🔹 What is This?  
+A simple tool to check when a TV show's next episode airs, converted to your local time. No more guessing when your favourite show is coming out!  
 
 ---
 
-### Current Progress:
-- **Core functionality completed!**
-  - Every possible input returns an output on the front-end, so users are never guessing what went wrong.
-  - The UI is minimalist but presentable.
+## 🛠️ How to Use  
+1️⃣ Start the server with:  
+   ```sh
+   node server.js
+   ```  
+2️⃣ Open `index.html` in your browser and start converting times instantly!  
 
 ---
 
-### Future Plans:
-- **Error handling improvements**:
-  - Specific error messages depending on the show's status (e.g., show is finished, no new episodes coming out, or show not found).
-  
-- **Display show name**:  
-  Put the show name in the error and result messages for better clarity.
+## ✅ Current Progress  
+✔️ **Core functionality complete** – every input gets an output, so users are never left guessing.  
+✔️ **Minimalist yet presentable design** – clean and easy to use.  
+✔️ **Rate Limiting Implemented** – Prevents excessive API requests to avoid key suspension.  
 
 ---
 
-### 🔹 Additional Functionalities to Work on in Future:
+## 🔮 Future Plans  
+🔹 **Specific Error Messages**  
+- Distinguish between "No upcoming episodes" vs. "Show not found."  
 
-1️⃣ **Convert to Local Time Automatically**  
-   - Detect the user's time zone automatically and display the converted time after fetching the airstamp.
-   - Use the `Intl.DateTimeFormat` API to detect the user's time zone and convert from GMT.
+🔹 **Show Identification Issues**  
+- Some shows have multiple versions (remakes, different years), causing incorrect results.  
+- Example: Searching for *Battlestar Galactica* might return the wrong version.  
+- Potential fix: Allow users to select from multiple search results (an image preview could help).  
 
-2️⃣ **Countdown Timer ⏳**  
-   - Show a live countdown until the next episode airs!
-   - Use JavaScript's `setInterval()` to update the countdown every second, showing days, hours, minutes, and seconds.
+🔹 **Auto Convert to Local Time**  
+- Detect the user’s time zone and convert the air time automatically.  
 
-3️⃣ **Show Past Episodes 📺**  
-   - Fetch and display past episodes alongside the next episode.
-   - Use TVMaze’s episode list API (`/shows/:id/episodes`) to get episode information.
+🔹 **Countdown Timer ⏳**  
+- Show a live countdown until the next episode airs.  
 
-4️⃣ **Alternative Release Timezones 🌍**  
-   - Allow users to select different time zones (e.g., US, UK, AU) and see how the release time changes accordingly.
+🔹 **Show Past Episodes 📺**  
+- Fetch and display previous episodes alongside the next air date.  
 
-5️⃣ **Streaming Platform Link 🔗**  
-   - Display where the show is available (Netflix, Apple TV+, Hulu, etc.), using TVMaze’s official streaming links.
+🔹 **Alternative Timezones 🌍**  
+- Allow users to check different time zones (US, UK, AU, etc.).  
 
-6️⃣ **Episode Information & Summary 📝**  
-   - Show more episode details, such as:
-     - Episode synopsis
-     - Duration
-     - Director & Writers
+🔹 **Streaming Platform Link 🔗**  
+- Display where the show is available (Netflix, Hulu, Apple TV+, etc.).  
 
-7️⃣ **Save Searches for Quick Access 🔖**  
-   - Store the last searched show in `localStorage`, so users don’t have to retype it.
+🔹 **Episode Information & Summary 📝**  
+- Include details like episode synopsis, duration, and creators.  
 
-8️⃣ **UI Improvements with Icons & Animations 🎨**  
-   - Use FontAwesome to add icons (e.g., ⏳ for countdown, 🎥 for episodes).
-   - Implement smooth fade-in animations when fetching new data.
+🔹 **Save Searches for Quick Access 🔖**  
+- Store the last searched show in `localStorage` for convenience.  
+
+🔹 **UI Improvements 🎨**  
+- Add icons, animations, and smooth UI transitions.  
 
 ---
 
-Feel free to explore the project, contribute, or offer suggestions! ✨
+## ⚠️ Current Issues  
+❌ **Lack of Show Year/Specific Identification**  
+- No option to select between multiple results (e.g., *Battlestar Galactica 2004* vs *1978*).  
+- Users might get incorrect results.  
+
+![Example Issue](https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Battlestar_Galactica_TOS_Title.jpg/250px-Battlestar_Galactica_TOS_Title.jpg)  
+
+❌ **Non-Specific Error Handling**  
+- Doesn't differentiate between "No new episodes" and "Show not found."  
+
+❌ **Potential Rate Limit Hits**  
+- Spamming "Convert Time" could get the API key suspended.  
+- Implemented rate limiting to prevent abuse (1-minute and 10-minute cooldowns).  
+
+---
+
+## ⏳ Rate Limiting Details  
+To prevent excessive API calls, rate limiting is in place:  
+- **1-minute limit:** Too many requests in a short period will block further queries.  
+- **10-minute limit:** Additional restrictions apply to prevent abuse.  
+- Users who exceed limits will see a message explaining the cooldown period.  
+
+---
+💡 **Made with HTML, CSS, JavaScript, Node.js, and TVMaze API** 🎬
+**Hosted on Render**
+
+*Thank you for checking my first coding project out!*
