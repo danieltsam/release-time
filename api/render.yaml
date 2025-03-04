@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: release-time-api
+    env: node
+    buildCommand: npm install
+    startCommand: node api/server.js
+    region: oregon
