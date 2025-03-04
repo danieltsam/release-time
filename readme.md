@@ -75,7 +75,7 @@ To prevent excessive API calls, rate limiting is in place:
 This project fetches TV show data from the **TVMaze API**:  
 - **Endpoint for show information:**  
   ```sh
-  https://api.tvmaze.com/shows/SHOW_ID_HERE
+  https://api.tvmaze.com/shows/INSERT_ID_HERE
   ```  
 
 ---
