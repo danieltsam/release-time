@@ -53,7 +53,7 @@ async function searchTvShow(tvshowName) {
     }
 }
 
-app.get('/search-tv-show', async (req, res) => {
+app.get('api/search-tv-show', async (req, res) => {
     const { tvshowName } = req.query;
     if (!tvshowName) {
         return res.status(400).json({ error: "Missing tvshowName paramater" });
@@ -69,6 +69,35 @@ app.get('/search-tv-show', async (req, res) => {
     } catch (error) {
         console.error("❌ error occurred while searching for TV show:", error);
         res.status(500).json({ error: "Error occurred while fetching TV show data" });
+    }
+});
+
+// time zone conversion route
+app.get('api/convert-time', async (req, res) => {
+    const {localTimeZone, tvshowTimeZone, testTime } = req.query;
+
+    if (!localTimeZone || !tvshowTimeZone || !testTime) {
+        return res.status(400).json({ error: "Missing required parameters" });
+    }
+
+    try {
+        // calls the timezonedb API to convert time
+        const response = await fetch(https://api.timezonedb.com/v2.1/convert-time-zone?key=${timezonedbApiKey}&format=json&from=${tvshowTimeZone}&to=${localTimeZone}&time=${testTime});
+        
+        // check if the response was successful, if not return an error
+        if (!response.ok) {
+            throw new Error("failed to fetch data from the API :(");
+        }
+
+        // parse and output the api response data for testing
+        const data = await response.json();
+        console.log("api response:", data);
+
+        // send the data back to the front-end
+        res.json(data);
+    } catch (error) {
+        console.error("error occurred:", error)
+        res.status(500).json({ error: "Error occurred while fetching time data oh no" });
     }
 });
 
