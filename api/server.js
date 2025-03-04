@@ -99,5 +99,5 @@ app.get('/convert-time', async (req, res) => {
         res.status(500).json({ error: "Error occurred while fetching time data oh no" });
     }
 });
-
+// for vercel to handle as severless function?
 module.exports = app;
