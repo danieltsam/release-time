@@ -14,8 +14,8 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
 
-// rate limiter
-const limiter = rateLimit({
+// rate limiters
+const limiter1min = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 10, // limits each IP to 10 requests per `windowMs`
   message: {
@@ -23,8 +23,18 @@ const limiter = rateLimit({
   }
 });
 
-// apply rate limiter to the API route
-app.use('/api/', limiter);
+const limiter24hrs = rateLimit({
+    windowMs: 1 * 60 * 1000 * 60 * 24, // 24 hours
+    max: 30, // limits each IP to 10 requests per `windowMs`
+    message: {
+      statusCode: 430 //app.js takes this statusCode and outputs it to frontend
+    }
+  });
+
+// apply rate limiters to the API route
+app.use('/api/', limiter1min);
+app.use('/api/', limiter24hrs);
+
 
 
 

@@ -22,6 +22,11 @@ document.getElementById('searchBtn').addEventListener('click', function() {
                 throw new Error('You are making requests too quickly. Please try again in 1 minute.');
               };
 
+              // check for rate limiting (status 430)
+              if (response.status === 430) {
+                throw new Error('You are making requests too quickly. Please try again in 24 hours.');
+              };
+
             if (!response.ok) {
                 // if the response is not OK (e.g., server error, etc.)
                 throw new Error('womp-womp API response was not ok');
