@@ -14,15 +14,19 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const timezonedbApiKey = process.env.timezonedbApiKey; // TimezoneDB API Key
 
-//rate limiter
+// rate limiter
 const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minute
-    max: 1, // Limits IP to 1 requests per windowsMs
-    message: "Too many requests from this IP, please try again after a minute",
-  });
-  
-  // Apply rate limiter to the API route
-  app.use('/api/', limiter);
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 1, // limits each IP to 10 requests per `windowMs`
+  message: {
+    error: "You are making requests too quickly. Please try again in 1 minute.",
+    statusCode: 429 //app.js takes this statusCode and outputs it to frontend
+  }
+});
+
+// apply rate limiter to the API route
+app.use('/api/', limiter);
+
 
 
 async function searchTvShow(tvshowName) {

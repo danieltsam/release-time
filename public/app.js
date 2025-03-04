@@ -18,9 +18,21 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     fetch(`https://release-time.onrender.com/api/search-tv-show?tvshowName=${encodeURIComponent(tvshowName)}`)
         .then(response => {
             if (!response.ok) {
+                // If the response is not OK (e.g., server error, etc.)
                 throw new Error('womp-womp API response was not ok');
-            }
-            return response.json();
+              }
+              
+              // Check for rate limiting (status 429)
+              if (response.status === 429) {
+                return response.json().then(data => {
+                  // Display the rate-limited message in the releaseTime element
+                  document.getElementById('releaseTime').innerText = data.error;
+                });
+              }
+              
+              // If the response is ok and not rate-limited, parse it as JSON
+              return response.json();
+            
         })
         .then(data => {
             console.log(data);
