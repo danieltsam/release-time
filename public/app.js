@@ -28,14 +28,14 @@ document.getElementById('searchBtn').addEventListener('click', function() {
               
               // check for rate limiting (status 429)
             if (response.status === 429) {
-                return response.json().then(data => {
-                  document.getElementById('releaseTime').innerText = "You are making requests too quickly. Please try again in 1 minute.";
-                });
-              }
-              // If the response is ok and not rate-limited, parse it as JSON
-              return response.json();
+                  throw new Error('You are making requests too quickly. Please try again in 1 minute.');
+                };
+
+            // If the response is ok and not rate-limited, parse it as JSON
+            return response.json();
             
-        })
+              })
+              
         .then(data => {
             console.log(data);
             airStamp = data.airStamp
@@ -53,7 +53,7 @@ document.getElementById('searchBtn').addEventListener('click', function() {
         })
         .catch(error => {
             console.error('Error occurred while fetching TV show data:', error);
-            document.getElementById('releaseTime').innerText = "Error occurred while fetching data.";
+            document.getElementById('releaseTime').innerText = error;
         });
 });
 
