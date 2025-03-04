@@ -82,7 +82,7 @@ app.get('api/convert-time', async (req, res) => {
 
     try {
         // calls the timezonedb API to convert time
-        const response = await fetch(https://api.timezonedb.com/v2.1/convert-time-zone?key=${timezonedbApiKey}&format=json&from=${tvshowTimeZone}&to=${localTimeZone}&time=${testTime});
+        const response = await fetch(`https://api.timezonedb.com/v2.1/convert-time-zone?key=${timezonedbApiKey}&format=json&from=${tvshowTimeZone}&to=${localTimeZone}&time=${testTime}`);
         
         // check if the response was successful, if not return an error
         if (!response.ok) {
