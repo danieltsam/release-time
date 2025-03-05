@@ -4,6 +4,7 @@
 }
 
 body {
+  min-height: 100vh;
   background-color: #121212;
   color: #e0e0e0;
   font-family: 'Helvetica', sans-serif;
@@ -14,6 +15,15 @@ body {
   height: 100vh;
   margin: 0;
   text-align: center;
+}
+
+main {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  padding: 20px;
 }
 
 
@@ -28,9 +38,10 @@ input[type="text"] {
   background-color: #1e1e1e;
   color: #ffffff;
   border: 1px solid #333;
-  padding: 15px 30px;
-  width: 300px;
-  border-radius: 20px;
+  padding: 15px;
+  width: 400px;
+  margin: 10px;
+  border-radius: 100px;
   text-align: center;
   outline: none;
   font-size: 1.5rem;
@@ -48,17 +59,17 @@ button {
   color: #121212;
   border: none;
   padding: 10px 15px;
-  margin: 10px;
+  margin: 5px;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 550;
   border-radius: 12px;
-  transition: background 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #8e53d6;
   transition: all .5s ease-in-out;
+  background-color: #8e53d6;
   transform: scale(1.15);
 }
 
@@ -85,7 +96,7 @@ p {
   background-color: #79767613;
   color: #ffffff;
   padding: 15px 20px;
-  border-radius: 8px;
+  border-radius: 20px;
   width: fit-content;
 }
 
@@ -94,10 +105,25 @@ select {
   background-color: #1e1e1e;
   color: #ffffff;
   border: 1px solid #333;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 20px;
   outline: none;
   font-size: 1rem;
+}
+
+footer p {
+  margin-top: auto;
+  margin: 0px;
+  color:#746c6c;
+  background-color: #1b1a1a;
+  font-size: 15px;
+  width: 98vw;
+  border-radius: 10px;
+  padding: px;
+}
+
+a {
+  color:#746c6c
 }
 
 
