@@ -58,7 +58,7 @@ button {
 
 button:hover {
   background-color: #8e53d6;
-  transition: all .2s ease-in-out;
+  transition: all .5s ease-in-out;
   transform: scale(1.15);
 }
 
